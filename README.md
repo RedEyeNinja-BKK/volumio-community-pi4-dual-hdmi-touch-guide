@@ -84,7 +84,54 @@ while routing **audio-only** to HDMI-1 (e.g., a soundbar).
 
 4\. In **Playback Options** → Output Device = `HDMI 1`.
 
-\---
+```
+volumio-community-pi4-dual-hdmi-touch-guide/
+├── LICENSE
+├── README.md  
+├── usr/
+│   └── local/
+│       └── bin/
+│           └── fix-outputs.sh
+├── etc/
+│   ├── X11/
+│   │   └── xorg.conf.d/
+│   │       └── 10-monitor.conf
+│   └── systemd/
+│       └── system/
+│           ├── outputs-fix.service
+│           ├── outputs-fix.service.d/
+│           │   └── override.conf
+│           └── peppymeterbasic.service.d/
+│               ├── override.conf
+│               └── 10-groups.conf
+```
+
+## ⚡ TL;DR — Quick Install
+
+If you’re comfortable working on Volumio’s shell, these commands reproduce the setup described above.
+
+```
+# === Step 1: Copy files into place ===
+sudo cp -v etc/X11/xorg.conf.d/10-monitor.conf /etc/X11/xorg.conf.d/
+sudo cp -v usr/local/bin/fix-outputs.sh /usr/local/bin/
+sudo chmod +x /usr/local/bin/fix-outputs.sh
+
+sudo cp -v etc/systemd/system/outputs-fix.service /etc/systemd/system/
+sudo install -d -m 0755 /etc/systemd/system/outputs-fix.service.d
+sudo cp -v etc/systemd/system/outputs-fix.service.d/override.conf /etc/systemd/system/outputs-fix.service.d/
+
+sudo install -d -m 0755 /etc/systemd/system/peppymeterbasic.service.d
+sudo cp -v etc/systemd/system/peppymeterbasic.service.d/*.conf /etc/systemd/system/peppymeterbasic.service.d/
+
+# === Step 2: Reload and enable the service ===
+sudo systemctl daemon-reload
+sudo systemctl enable --now outputs-fix.service
+
+# === Step 3: Verify ===
+DISPLAY=:0 xrandr
+DISPLAY=:0 XAUTHORITY=/var/lib/volumio/.Xauthority xinput list | grep -E 'QDtech|MPI|Touch'
+journalctl -u outputs-fix.service --no-pager | tail -n 50
+```
 
 ## Playbook v2.1
 
@@ -382,4 +429,16 @@ These remove GPU “permission denied” errors and ensure PeppyMeter uses hardw
 /etc/systemd/system/outputs-fix.service.d/override.conf
 /etc/systemd/system/peppymeterbasic.service.d/override.conf
 # (+ optional peppymeterbasic 10-groups.conf)
+```
+**♻️ Uninstall / Revert**
+
+To revert the system to stock Volumio behavior, run:
+```
+sudo systemctl disable --now outputs-fix.service
+sudo rm -f /etc/systemd/system/outputs-fix.service
+sudo rm -rf /etc/systemd/system/outputs-fix.service.d
+sudo rm -f /usr/local/bin/fix-outputs.sh
+sudo rm -f /etc/X11/xorg.conf.d/10-monitor.conf
+sudo systemctl daemon-reload
+sudo reboot
 ```
