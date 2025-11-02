@@ -86,28 +86,6 @@ while routing **audio-only** to HDMI-1 (e.g., a soundbar).
 
 \---
 
-volumio-community-pi4-dual-hdmi-touch-guide/
-├── LICENSE
-├── README.md  
-├── usr/
-│   └── local/
-│       └── bin/
-│           └── [fix-outputs.sh](http://fix-outputs.sh)
-├── etc/
-│   ├── X11/
-│   │   └── xorg.conf.d/
-│   │       └── 10-monitor.conf
-│   └── systemd/
-│       └── system/
-│           ├── outputs-fix.service
-│           ├── outputs-fix.service.d/
-│           │   └── override.conf
-│           └── peppymeterbasic.service.d/
-│               ├── override.conf
-│               └── 10-groups.conf
-
----
-
 ## Playbook v2.1
 
 **Pi 4: HDMI-0 video (touch LCD @1280×800) + HDMI-1 audio (soundbar), with reliable touch**  
