@@ -1,0 +1,47 @@
+# ---------------------------------------------------------------------------
+# Volumio Dual HDMI Touch Experimental Repo - .gitignore
+# ---------------------------------------------------------------------------
+# Ignore system junk, editor backups, and local environment files
+# ---------------------------------------------------------------------------
+
+# macOS / Linux / Windows cruft
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+__MACOSX/
+
+# Editor / IDE metadata
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs / temp files
+*.log
+*.tmp
+*.bak
+*.old
+*.save
+*.cache
+*.lock
+*journalctl*
+
+# Python temp or virtual envs (PeppyMeter debugging etc.)
+__pycache__/
+*.py[cod]
+.env/
+.venv/
+
+# Systemd / runtime backups
+*.service~
+*.conf~
+
+# Do not ignore our actual /etc/, /usr/, /xorg/ paths
+!/etc/
+!/usr/
+!/xorg/
+
+# Generated scripts or build artifacts (if any)
+build/
+dist/

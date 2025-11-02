@@ -1,0 +1,17 @@
+[Unit]
+Description=Fix display layout and touch mapping for Volumio kiosk
+After=volumio-kiosk.service now_playing.service
+Wants=volumio-kiosk.service now_playing.service
+
+[Service]
+Type=oneshot
+User=volumio
+Group=volumio
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/var/lib/volumio/.Xauthority
+ExecStartPre=/bin/sleep 3
+ExecStart=/usr/local/bin/fix-outputs.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
